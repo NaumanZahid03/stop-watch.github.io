@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <style>
+    .container {
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="display">00:00:00</h1>
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
+    <button onclick="reset()">Reset</button>
+  </div>
+
+  <script>
+    // JavaScript code will go here
+
+
+    let startTime;
+let elapsedTime = 0;
+let timerInterval;
+
+function start() {
+  if (!timerInterval) {
+    startTime = Date.now() - elapsedTime;
+    timerInterval = setInterval(updateDisplay, 10);
+  }
+}
+
+function stop() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function reset() {
+  stop();
+  elapsedTime = 0;
+  updateDisplay();
+}
+
+function updateDisplay() {
+  const currentTime = Date.now();
+  elapsedTime = currentTime - startTime;
+  const formattedTime = formatTime(elapsedTime);
+  document.getElementById('display').innerText = formattedTime;
+}
+
+function formatTime(milliseconds) {
+  const date = new Date(milliseconds);
+  const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+  const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+  const centiseconds = Math.floor(date.getUTCMilliseconds() / 10).toString().padStart(2, '0');
+  return `${minutes}:${seconds}:${centiseconds}`;
+}
+
+  </script>
+</body>
+</html>
